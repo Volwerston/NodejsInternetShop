@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>Products</title>
+<link rel="stylesheet" href="styles/stylesheet.css"/>
+</head>
+<body>
+<div id="content">
+  <div id="header">
+    <div class="topong">
+      <div class="pad"> <img src="images/cart.gif" alt="My Cart" />
+        <h4><a href="#">VIEW CART</a></h4>
+        <br />
+        <span class="txt">Lorem Ipsum Dolore</span> </div>
+    </div>
+    <div class="topong">
+      <div class="pad"> <img src="images/account.gif" alt="Account" />
+        <h4><a href="#">MY ACCOUNT</a></h4>
+        <br />
+        <span class="txt">Lorem Ipsum Dolore</span> </div>
+    </div>
+    <h1><span class="green bigl">I</span>nternet<span class="green bigl">S</span>hop</h1>
+	</div>
+  <div id="menu">
+    <div class="pad">
+      <div class="submit">
+        <ul>
+          <li><a href="/"><span>HOME</span></a></li>
+          <li><a href="/products.html"><span>PRODUCTS</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+    <div id="modules">
+	</div>
+</div>
+<script type="text/javascript" src="scripts/jquery.min.js"></script>
+<script type="text/javascript">
+
+function getDivForModule(obj){
+   return  '<div class="mod">'
+		+ '<div class="padding"> <img src="images/img.gif" alt="" />'
+        + '<div class="price"> <span class="only">ONLY</span><br />'
+        + '$' + (1 - obj.Discount/100)*obj.Price + '</div>'
+        + '<div class="text">'
+        + '<h2><a href="#">' + obj.Name + '</a></h2>'
+        +  '<p>' + obj.Description + '</p>'
+        + '</div>'
+        + '</div>'
+        + '</div>';
+}
+
+$(document).ready(function(){
+	$.ajax({
+		method: "GET",
+		url: "/api/products",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		success: function(res){
+			if(res.length == 0){
+				$("#modules").append("<p style='text-align: center'>No products were found</p>");
+			}
+			else{
+				for(var i = 0; i < res.length; ++i){
+					$("#modules").append(getDivForModule(res[i]));
+				}
+			}
+		},
+		error: function(err){
+			alert(JSON.stringify(err));
+		}
+	});
+});
+
+</script>
+</body>
+</html>
